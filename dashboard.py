@@ -51,7 +51,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# ESTILIZACAO 
+# ESTILIZACAO
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
@@ -109,7 +109,6 @@ if not df_raw.empty:
         st.markdown('<p class="subtitle-text">Dashboard de Analise Operacional — Desafio Dados Por Todos</p>', unsafe_allow_html=True)
     
     with col_social:
-    
         st.markdown(
             """
             <div style="display: flex; gap: 10px; justify-content: flex-end; align-items: center; margin-top: -5px;">
@@ -131,7 +130,7 @@ if not df_raw.empty:
     ]
 
     # Metricas
-    st.write("")  
+    st.write("")
     m1, m2, m3, m4 = st.columns(4)
     m1.metric("Total de Corridas", f"{len(filtered_df):,}")
     m2.metric("Distancia Media (KM)", f"{filtered_df['trip_distance'].mean():.2f} km")
@@ -204,4 +203,8 @@ if not df_raw.empty:
             st.plotly_chart(px.pie(df_vendor, names="VendorID", values="Corridas", hole=0.4, color_discrete_sequence=["#ffcc33", "#ffa500"]), use_container_width=True)
         with c4:
             st.markdown("**4. Distribuicao por Tipo de Pagamento**")
-            df_pag = filtered_df.groupby
+            df_pag = filtered_df.groupby("tipo_pagamento").size().reset_index(name="Corridas")
+            st.plotly_chart(
+                px.pie(df_pag, names="tipo_pagamento", values="Corridas", hole=0.4, color_discrete_sequence=["#ffcc33", "#ffa500", "#ff8c00"]),
+                use_container_width=True
+            )
